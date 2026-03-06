@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: "../.env" });
 const mongoose = require("mongoose");
 const User = require("../src/models/user.model");
 
@@ -15,7 +15,7 @@ const seedAdmin = async () => {
 
     const admin = new User({
       name: "Super Admin",
-      email: "admin@logintel.com",
+      email: "admin@techf.com",
       password: "Admin@techf",  
       role: "admin",
       status: "approved",

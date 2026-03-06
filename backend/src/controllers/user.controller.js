@@ -4,13 +4,18 @@ const User = require("../models/user.model");
 const paginationUtil = require("../utils/pagination.util");
 
 exports.getUsers = async (req, res) => {
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 5;
-  const search = req.query.search || "";
 
-  const query = {
-    email: { $regex: search, $options: "i" },
-  };
+  const query = {};
+
+  const { page = 1, limit = 5, search = "", status } = req.query;
+
+  if (search) {
+    query.email = { $regex: search, $options: "i" };
+  }
+
+  if (status) {
+    query.status = status;
+  }
 
   const total = await User.countDocuments(query);
 

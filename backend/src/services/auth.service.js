@@ -1,45 +1,55 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
+const userRepository = require("../repositories/user.repository");
 const { generateToken } = require("../config/jwt");
+const AppError = require("../errors/app.error");
 
-exports.signup = async (data) => {
+class AuthService {
 
-  const { password, confirmPassword } = data;
+  async signup(data) {
 
-  const user = await User.findOne({ email: data.email });
-  if (user) throw new Error("User already exists");
+    const existingUser = await userRepository.findByEmail(data.email);
 
+    if (existingUser) {
+      throw new AppError("User already exists", 409);
+    }
 
-  if (confirmPassword !== password) {
-    throw new Error("Passwords do not match");
-  } else {
-    const hashed = await bcrypt.hash(data.password, 10); // data.password;
+    const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    return await User.create({
+    const user = await userRepository.createUser({
       ...data,
-      password: hashed,
+      password: hashedPassword,
+      status: "pending"
     });
+
+    return user;
   }
-};
 
-exports.login = async (email, password) => {
-  const user = await User.findOne({ email });
-  console.log("User authenticated:", user.email);
-  console.log("user password hash:", user.password);
 
-  if (!user) throw new Error("User not found");
-  if (user.status !== "approved") throw new Error("User not approved");
+  async login(email, password) {
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) throw new Error("Invalid credentials");
+    const user = await userRepository.findByEmail(email);
 
-  // inside login
-  const token = generateToken({
-    id: user._id,
-    role: user.role,
-  });
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
 
-  console.log("Generated JWT:", token);
-  return { user, token };
-};
+    if (user.status !== "approved") {
+      throw new AppError("User not approved", 403);
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      throw new AppError("Invalid credentials", 401);
+    }
+
+    const token = generateToken({
+      id: user._id,
+      role: user.role,
+    });
+
+    return { user, token };
+  }
+}
+
+module.exports = new AuthService();
