@@ -1,4 +1,4 @@
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../../../client/src/context/AuthContext";
 import AdminNavbar from "../../pages/admin/AdminNavbar";
 import UserNavbar from "../../pages/user/UserNavbar";
 

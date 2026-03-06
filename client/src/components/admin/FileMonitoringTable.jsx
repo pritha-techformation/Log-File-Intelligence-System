@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllLogs } from "../../api/file.api";
+import { getAllLogs } from "../../../../client/src/api/file.api";
 import LogDetailModal from "./LogDetailsModal";
 import ErrorChart from "./ErrorCharts";
 

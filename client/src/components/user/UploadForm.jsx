@@ -1,7 +1,7 @@
 // components/logs/UploadLogForm.jsx
 
 import { useState } from "react";
-import { uploadLog } from "../../api/file.api";
+import { uploadLog } from "../../../../client/src/api/file.api";
 import toast from "react-hot-toast";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
