@@ -1,5 +1,5 @@
 .hero {
-  height: 100vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,17 +13,19 @@
   );
 
   color: white;
-  padding: 40px;
+  padding: 60px 20px;
 }
 
 .hero-content {
   max-width: 700px;
+  width: 100%;
 }
 
 .hero-title {
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 20px;
+  line-height: 1.2;
 }
 
 .hero-subtitle {
@@ -46,4 +48,55 @@
 .hero-btn:hover {
   background: #4f46e5;
   transform: translateY(-2px);
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .hero-title {
+    font-size: 2.4rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .hero {
+    padding: 50px 20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .hero {
+    min-height: 70vh;
+    padding: 40px 15px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+  .hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .hero-btn {
+    width: 100%;
+  }
 }

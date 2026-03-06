@@ -1,8 +1,11 @@
+
+
 .user-table-wrapper {
   background: white;
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  overflow-x: auto;
 }
 
 .table-header {
@@ -138,4 +141,103 @@
 .loading {
   text-align: center;
   padding: 30px;
+}
+
+/* .user-table-layout {
+  display: flex;
+  gap: 20px;
+} */
+
+.filter-sidebar {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  width: 180px;
+  padding: 20px;
+  background: #f6f7fb;
+  border-radius: 10px;
+  height: fit-content;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: nowrap;
+  /* margin-left: rem; */
+  /* text-align: center; */
+}
+
+/* Title */
+.filter-sidebar h3 {
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+.filter-sidebar button {
+  display: block;
+  width: 100%;
+  padding-inline: 1.2rem;
+  padding-block: 0.6rem;
+  min-height: 3rem;
+  border: none;
+  background: #e5e7eb;
+  cursor: pointer;
+  border-radius: 6px;
+  min-width: fit-content;
+  transition: background 0.2s ease;
+}
+
+.filter-sidebar button:hover {
+  background: #d1d5db;
+}
+
+/* -------- Tablet -------- */
+@media (max-width: 900px) {
+
+  .filter-sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filter-sidebar h3 {
+    width: 100%;
+    text-align: center;
+  }
+
+  .filter-sidebar button {
+    width: auto;
+  }
+
+}
+
+/* -------- Mobile -------- */
+@media (max-width: 600px) {
+
+  .filter-sidebar {
+    padding: 15px;
+    gap: 8px;
+  }
+
+  .filter-sidebar button {
+    flex: 1 1 45%;
+    min-height: 2.6rem;
+    font-size: 14px;
+  }
+
+}
+
+/* -------- Small Phones -------- */
+@media (max-width: 400px) {
+
+  .filter-sidebar button {
+    flex: 1 1 100%;
+  }
+
+}
+.filter-sidebar button:hover {
+  background: #d1d5db;
+}
+
+.active-filter {
+  background: #3b82f6 !important;
+  color: white;
 }
