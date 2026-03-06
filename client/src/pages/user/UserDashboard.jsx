@@ -72,7 +72,7 @@ const UserDashboard = () => {
   return (
     <div className="dashboard">
 
-      <h1>User Dashboard</h1>
+      <h1 className="dashboard-title">User Dashboard</h1>
 
       {/* Stats */}
       <div className="stats-grid">

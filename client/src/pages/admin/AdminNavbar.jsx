@@ -1,6 +1,6 @@
 // components/AdminNavbar.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../../components/styles/Navbar.css";
 
 const AdminNavbar = () => {
@@ -19,9 +19,10 @@ const AdminNavbar = () => {
       </div>
 
       <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
-        <li><Link to="/admin/users">All Users</Link></li>
-        <li><Link to="/admin/files">File Monitoring</Link></li>
-        <li><Link to="/logout">Logout</Link></li>
+        <li><NavLink to="/admin/dashboard">Dashboard</NavLink></li>
+        <li><NavLink to="/admin/users">All Users</NavLink></li>
+        <li><NavLink to="/admin/files">File Monitoring</NavLink></li>
+        <li><NavLink to="/logout">Logout</NavLink></li>
       </ul>
     </nav>
   );

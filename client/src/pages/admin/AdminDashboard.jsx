@@ -139,9 +139,9 @@ const AdminDashboard = () => {
               <h2 className="text-xl font-semibold text-gray-700">
                 Profile Information
               </h2>
-              <span className="inline-block mt-2 px-3 py-1 text-sm rounded-full bg-purple-100 text-purple-700 font-medium">
+              {/* <span className="inline-block mt-2 px-3 py-1 text-sm rounded-full bg-purple-100 text-purple-700 font-medium">
                 {admin.role || "Admin"}
-              </span>
+              </span> */}
             </div>
 
             {!editMode ? (

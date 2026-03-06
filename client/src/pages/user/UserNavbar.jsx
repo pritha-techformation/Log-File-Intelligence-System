@@ -1,7 +1,7 @@
 // components/UserNavbar.jsx
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "../../components/styles/Navbar.css";
 
 const UserNavbar = () => {
@@ -10,7 +10,7 @@ const UserNavbar = () => {
 
   return (
     <nav className="navbar">
-      <h1>Log File Intelligence System</h1>
+      <h1><Link to="/">LogIntel System</Link></h1>
 
        {/* Hamburger */}
       <div
@@ -21,10 +21,10 @@ const UserNavbar = () => {
       </div>
 
       <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/upload">Upload Logs</Link></li>
-        <li><Link to="/history">Upload History</Link></li>
-        <li><Link to="/logout">Logout</Link></li>
+        <li><NavLink to="/">Home</NavLink></li>
+        <li><NavLink to="/upload">Upload Logs</NavLink></li>
+        <li><NavLink to="/history">Upload History</NavLink></li>
+        <li><NavLink to="/logout">Logout</NavLink></li>
       </ul>
     </nav>
   );

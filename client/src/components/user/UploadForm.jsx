@@ -15,22 +15,33 @@ const UploadLogForm = () => {
   const [progress, setProgress] = useState(0);
   const [analysis, setAnalysis] = useState(null);
   const [logId, setLogId] = useState(null);
-
-  const handleFile = (selectedFile) => {
-    setFile(selectedFile);
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setPreview(e.target.result.slice(0, 500));
-    };
-    reader.readAsText(selectedFile);
-  };
+  const [dragging, setDragging] = useState(false);
 
   const handleDrop = (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
     const droppedFile = e.dataTransfer.files[0];
     handleFile(droppedFile);
+    e.dataTransfer.clearData();
+  }
+};
+
+const handleFile = (selectedFile) => {
+  if (!selectedFile.name.endsWith(".txt")) {
+    toast.error("Only .txt log files allowed");
+    return;
+  }
+
+  setFile(selectedFile);
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    setPreview(e.target.result.slice(0, 500));
   };
+  reader.readAsText(selectedFile);
+};
 
 const handleUpload = async () => {
   if (!file) {
@@ -68,19 +79,6 @@ const handleUpload = async () => {
   }
 };
 
-  const shareReport = () => {
-    const url = `${window.location.origin}/logs/${logId}`;
-
-    if (navigator.share) {
-      navigator.share({
-        title: "Log Analysis Report",
-        url,
-      });
-    } else {
-      navigator.clipboard.writeText(url);
-      toast.success("Link copied!");
-    }
-  };
 
   return (
     <div className="upload-page">
@@ -89,18 +87,35 @@ const handleUpload = async () => {
 
       {/* Drag Drop Area */}
       <div
-        className="drop-zone"
-        onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}
-      >
-        {file ? file.name : "Drag & Drop log file here"}
-      </div>
+  className={`drop-zone ${dragging ? "drag-active" : ""}`}
+  onDrop={(e) => {
+    handleDrop(e);
+    setDragging(false);
+  }}
+  onDragOver={(e) => {
+    e.preventDefault();
+    setDragging(true);
+  }}
+  onDragLeave={() => setDragging(false)}
+>
+  {file ? file.name : "Drag & Drop log file here"}
+</div>
 
-      <input
-        type="file"
-        accept=".txt"
-        onChange={(e) => handleFile(e.target.files[0])}
-      />
+      <div className="file-input-wrapper">
+  <label className="file-label">
+    Select Log File
+    <input
+      type="file"
+      accept=".txt"
+      onChange={(e) => handleFile(e.target.files[0])}
+      hidden
+    />
+  </label>
+
+  <span className="file-name">
+    {file ? file.name : "No file selected"}
+  </span>
+</div>
 
       <button onClick={handleUpload}>Upload</button>
 
@@ -138,25 +153,6 @@ const handleUpload = async () => {
               ],
             }}
           />
-        </div>
-      )}
-
-      {/* Actions */}
-      {logId && (
-        <div className="actions">
-
-          <a
-            href={`/api/logs/report/${logId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <button>Download PDF</button>
-          </a>
-
-          <button onClick={shareReport}>
-            Share Report
-          </button>
-
         </div>
       )}
 
