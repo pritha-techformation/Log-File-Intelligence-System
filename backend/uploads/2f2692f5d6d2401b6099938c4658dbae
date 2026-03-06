@@ -1,0 +1,20 @@
+2026-03-05 10:00:01 INFO Server started on port 8000
+2026-03-05 10:00:03 INFO User login successful userId=65123
+2026-03-05 10:00:07 WARN Slow query detected queryTime=1200ms
+2026-03-05 10:00:12 ERROR Database connection timeout
+2026-03-05 10:00:13 ERROR Failed to fetch user profile userId=87421
+2026-03-05 10:00:20 INFO API request GET /api/users
+2026-03-05 10:00:24 ERROR Redis cache connection failed
+2026-03-05 10:00:25 INFO Retry attempt for Redis connection
+2026-03-05 10:00:30 ERROR Payment gateway timeout transactionId=TXN98231
+2026-03-05 10:00:35 WARN High memory usage detected usage=82%
+2026-03-05 10:00:40 ERROR File upload failed file=report.pdf
+2026-03-05 10:00:45 INFO Scheduled job executed jobId=cleanup
+2026-03-05 10:00:50 ERROR JWT token verification failed
+2026-03-05 10:00:55 WARN API rate limit exceeded userId=78211
+2026-03-05 10:01:01 ERROR Database write failure collection=orders
+2026-03-05 10:01:05 INFO User logout userId=65123
+2026-03-05 10:01:10 ERROR Failed to send email smtp timeout
+2026-03-05 10:01:15 WARN Disk space low remaining=12%
+2026-03-05 10:01:20 ERROR Unauthorized API access attempt ip=192.168.1.5
+2026-03-05 10:01:25 INFO System health check OK
