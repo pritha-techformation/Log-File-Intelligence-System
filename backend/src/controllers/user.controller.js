@@ -4,34 +4,45 @@ const User = require("../models/user.model");
 const paginationUtil = require("../utils/pagination.util");
 
 exports.getUsers = async (req, res) => {
+  try {
+    const query = {};
 
-  const query = {};
+    const { page = 1, limit = 5, search = "", status } = req.query;
 
-  const { page = 1, limit = 5, search = "", status } = req.query;
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
 
-  if (search) {
-    query.email = { $regex: search, $options: "i" };
+    if (search) {
+      query.email = { $regex: search, $options: "i" };
+    }
+
+    if (status) {
+      query.status = status;
+    }
+
+    const total = await User.countDocuments(query);
+
+    const users = await User.find(query)
+      .select("-password")
+      .skip((pageNumber - 1) * limitNumber)
+      .limit(limitNumber);
+
+    const pagination = paginationUtil(pageNumber, limitNumber, total);
+
+    res.json({
+      success: true,
+      users,
+      total,
+      pagination,
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
-
-  if (status) {
-    query.status = status;
-  }
-
-  const total = await User.countDocuments(query);
-
-  const users = await User.find(query)
-    .select("-password")
-    .skip((page - 1) * limit)
-    .limit(limit);
-
-  const pagination = paginationUtil(page, limit, total);
-
-  res.json({
-    success: true,
-    users,
-    total,
-    pagination,
-  });
 };
 
 // Approve user
