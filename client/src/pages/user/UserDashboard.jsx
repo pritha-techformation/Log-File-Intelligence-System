@@ -41,14 +41,15 @@ const UserDashboard = () => {
   });
 
   const errorChart = {
-    labels: Object.keys(errorMap),
-    datasets: [
-      {
-        label: "Errors",
-        data: Object.values(errorMap),
-      },
-    ],
-  };
+  labels: Object.keys(errorMap),
+  datasets: [
+    {
+      label: "Errors",
+      data: Object.values(errorMap),
+      borderRadius: 6
+    },
+  ],
+};
 
   // ----- Time aggregation -----
   const timeMap = {};
@@ -60,14 +61,21 @@ const UserDashboard = () => {
   });
 
   const timeChart = {
-    labels: Object.keys(timeMap),
-    datasets: [
-      {
-        label: "Errors by Time",
-        data: Object.values(timeMap),
-      },
-    ],
-  };
+  labels: Object.keys(timeMap),
+  datasets: [
+    {
+      label: "Errors by Time",
+      data: Object.values(timeMap),
+      // backgroundColor: [
+      //   "#6366f1",
+      //   "#22c55e",
+      //   "#f59e0b",
+      //   "#ef4444",
+      //   "#3b82f6"
+      // ],
+    },
+  ],
+};
 
   return (
     <div className="dashboard">
@@ -93,19 +101,14 @@ const UserDashboard = () => {
       </div>
 
       {/* Charts */}
-      <div className="charts-grid">
 
-        <div className="chart-card">
+
+        <div className="chart-card mb-3">
           <h3>Error Types</h3>
-          <Bar data={errorChart} />
+          <Bar data={errorChart} className="mx-auto width-full h-64" />
         </div>
 
-        <div className="chart-card">
-          <h3>Error Time Distribution</h3>
-          <Pie data={timeChart} />
-        </div>
-
-      </div>
+      
 
       {/* Recent Logs */}
       <div className="recent-logs">

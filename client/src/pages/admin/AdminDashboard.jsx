@@ -86,8 +86,6 @@ const AdminDashboard = () => {
     }
   };
 
-
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen text-gray-600">
@@ -147,16 +145,16 @@ const AdminDashboard = () => {
             {!editMode ? (
               <button
                 onClick={() => setEditMode(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                className="ml-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
               >
-                Edit Profile
+                Edit
               </button>
             ) : (
               <button
                 onClick={handleUpdateClick}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                className="ml-6 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
               >
-                Save Changes
+                Save
               </button>
             )}
           </div>
@@ -243,21 +241,19 @@ const AdminDashboard = () => {
               {pendingUsers.map((user) => (
                 <div
                   key={user._id}
-                  className="border border-gray-200 bg-gray-50 rounded-lg p-4 flex justify-between items-center"
+                  className="border border-gray-200 bg-gray-50 rounded-lg p-4 flex flex-wrap justify-between items-center gap-4"
                 >
-                  <div>
+                  <div className="mr-6">
                     <p className="font-medium text-gray-800">{user.name}</p>
                     <p className="text-sm text-gray-500">{user.email}</p>
                   </div>
 
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleApprove(user._id)}
-                      className="px-3 py-1 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition"
-                    >
-                      Approve
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => handleApprove(user._id)}
+                    className="px-3 py-1 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition"
+                  >
+                    Approve
+                  </button>
                 </div>
               ))}
             </div>

@@ -206,8 +206,8 @@ const UserTable = () => {
             </tbody>
           </table>
         )}
-
-        <div className="pagination">
+      </div>
+      <div className="pagination">
           <button
             disabled={!pagination.previousPage}
             onClick={() => setPage(pagination.previousPage)}
@@ -226,7 +226,6 @@ const UserTable = () => {
             Next →
           </button>
         </div>
-      </div>
       <ConfirmationDialog
         isOpen={dialogOpen}
         title={dialogConfig.title}

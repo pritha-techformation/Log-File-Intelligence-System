@@ -1,4 +1,10 @@
 /* global.css */
+[data-rht-toaster]{
+  left:auto !important;
+  right:16px;
+  width:auto;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;

@@ -30,7 +30,7 @@ const App = () => {
     <>
       {!hideLayout && <Layout />}
 
-      <Toaster position="top-center" />
+      <Toaster position="top-right" />
       <Routes>
         <Route
           path="/"

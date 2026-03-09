@@ -20,7 +20,7 @@ const UserNavbar = () => {
         ☰
       </div>
 
-      <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
+      <ul className={`nav-links z-50 ${menuOpen ? "active" : ""}`}>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/upload">Upload Logs</NavLink></li>
         <li><NavLink to="/history">Upload History</NavLink></li>

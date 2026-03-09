@@ -18,7 +18,7 @@ const AdminNavbar = () => {
         ☰
       </div>
 
-      <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
+      <ul className={`nav-links z-50 ${menuOpen ? "active" : ""}`}>
         <li><NavLink to="/admin/dashboard">Dashboard</NavLink></li>
         <li><NavLink to="/admin/users">All Users</NavLink></li>
         <li><NavLink to="/admin/files">File Monitoring</NavLink></li>

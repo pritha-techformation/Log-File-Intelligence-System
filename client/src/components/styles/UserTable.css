@@ -125,7 +125,7 @@
 }
 
 .pagination button {
-  padding: 6px 12px;
+  padding: 6px 6px;
   border-radius: 6px;
   border: none;
   background: #6366f1;
@@ -230,6 +230,9 @@
 
   .filter-sidebar button {
     flex: 1 1 100%;
+  }
+  .pagination {
+    gap: 10px;
   }
 
 }

@@ -163,7 +163,7 @@ const shareReport = async () => {
       {/* Error Frequency */}
       <div className="chart-card">
         <h3>Top Error Types</h3>
-        <Bar data={errorChart} />
+        <Bar data={errorChart} className="pb-6"/>
       </div>
 
       {/* Time Distribution */}
