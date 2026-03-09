@@ -35,7 +35,7 @@ const Login = () => {
           <input
             type="email"
             placeholder="Email"
-            className="border p-2 w-full mb-3"
+            className="border border-gray-300 p-2 w-full mb-3 focus:outline-1 focus:outline-blue-500"
             required
             onChange={(e) =>
               setForm({ ...form, email: e.target.value })
@@ -47,7 +47,7 @@ const Login = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
-              className="border p-2 w-full"
+              className="border border-gray-300 p-2 w-full focus:outline-1 focus:outline-blue-500"
               required
               onChange={(e) =>
                 setForm({ ...form, password: e.target.value })

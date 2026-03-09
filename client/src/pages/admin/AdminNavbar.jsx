@@ -8,7 +8,8 @@ const AdminNavbar = () => {
 
   return (
     <nav className="navbar admin-navbar">
-      <h1 className="logo">Admin Panel</h1>
+      <h1 className="logo">
+        <a href="/">Admin Panel</a></h1>
 
       {/* Hamburger */}
       <div

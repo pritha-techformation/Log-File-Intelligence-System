@@ -14,20 +14,27 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
+  try {
+    await signupUser({ name, email, password, confirmPassword });
 
-      await signupUser({ name, email, password, confirmPassword });
-      navigate("/login");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Signup failed");
-      console.log(error.response.data); // 🔥 THIS
-    }
-  };
+    toast.success("Signup successful! Waiting for admin approval.");
+
+    setTimeout(() => {
+      navigate("/waitingforapproval");
+    }, 2000);
+
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Signup failed");
+    console.log(error.response?.data);
+  }
+};
+
 
   return (
     <div className="container mx-auto px-12 py-8 border border-gray-300 rounded mt-10 max-w-md shadow-md bg-white min-h-screen flex flex-col justify-center">
+
       <h1 className="text-3xl font-bold text-center mt-10">Signup</h1>
       <form
         onSubmit={handleSubmit}
@@ -41,7 +48,7 @@ const Signup = () => {
             Name
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-1 focus:outline-blue-500 focus:shadow-outline"
             id="name"
             type="text"
             value={name}
@@ -56,7 +63,7 @@ const Signup = () => {
             Email
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-1 focus:outline-blue-500 focus:shadow-outline"
             id="email"
             type="email"
             value={email}
@@ -71,7 +78,7 @@ const Signup = () => {
             Password
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-1 focus:outline-blue-500 focus:shadow-outline"
             id="password"
             type={showPassword ? "text" : "password"}
             value={password}
@@ -86,7 +93,7 @@ const Signup = () => {
             Confirm Password
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-1 focus:outline-blue-500 focus:shadow-outline"
             id="confirmPassword"
             type={showPassword ? "text" : "password"}
             value={confirmPassword}

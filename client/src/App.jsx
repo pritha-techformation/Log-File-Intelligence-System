@@ -15,6 +15,8 @@ import FileMonitoring from "./pages/admin/FileMonitoring";
 import HistoryPage from "./pages/user/HistoryPage";
 import LogResults from "./components/LogResults";
 import LogUpload from "./components/LogUpload";
+import WaitingApproval from "./pages/user/Waiting";
+import PublicReport from "./pages/PublicReport";
 
 
 const App = () => {
@@ -87,6 +89,8 @@ const App = () => {
             isAuthenticated ? <LogoutPage /> : <Navigate to="/login" replace />
           }
         />
+        <Route path="/report/:id" element={<PublicReport />} />
+        <Route path="/waitingforapproval" element={<WaitingApproval />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
 
