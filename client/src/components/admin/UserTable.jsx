@@ -18,9 +18,6 @@ const UserTable = () => {
   const [dialogConfig, setDialogConfig] = useState({});
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("all");
-
-  // const token = localStorage.getItem("token");
-
   const [pagination, setPagination] = useState({});
 
   const fetchUsers = async () => {
@@ -30,7 +27,7 @@ const UserTable = () => {
       const res = await getUsers({
         page,
         limit: 5,
-        search,
+        search: search.trim() || undefined,
         status: statusFilter !== "all" ? statusFilter : undefined,
       });
 
@@ -39,13 +36,16 @@ const UserTable = () => {
       );
 
       setUsers(filteredUsers);
-      setPagination(res.data.pagination);
+      setPagination(res.data.pagination || {});
     } catch (err) {
       toast.error("Failed to fetch users");
     } finally {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    setPage(1);
+  }, [search, statusFilter]);
 
   useEffect(() => {
     const delay = setTimeout(() => {
@@ -137,7 +137,15 @@ const UserTable = () => {
           Inactive
         </button>
       </div>
-
+      <div className="table-controls">
+        <input
+          type="text"
+          placeholder="Search by name or email..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="search-input"
+        />
+      </div>
       <div className="user-table-wrapper">
         {loading ? (
           <div className="loading">Loading users...</div>
@@ -208,24 +216,24 @@ const UserTable = () => {
         )}
       </div>
       <div className="pagination">
-          <button
-            disabled={!pagination.previousPage}
-            onClick={() => setPage(pagination.previousPage)}
-          >
-            ← Prev
-          </button>
+        <button
+          disabled={!pagination?.previousPage}
+          onClick={() => setPage(pagination.previousPage)}
+        >
+          ← Prev
+        </button>
 
-          <span>
-            Page {pagination.currentPage} / {pagination.totalPages}
-          </span>
+        <span>
+          Page {pagination?.currentPage || 1} / {pagination?.totalPages || 1}
+        </span>
 
-          <button
-            disabled={!pagination.nextPage}
-            onClick={() => setPage(pagination.nextPage)}
-          >
-            Next →
-          </button>
-        </div>
+        <button
+          disabled={!pagination?.nextPage}
+          onClick={() => setPage(pagination.nextPage)}
+        >
+          Next →
+        </button>
+      </div>
       <ConfirmationDialog
         isOpen={dialogOpen}
         title={dialogConfig.title}
