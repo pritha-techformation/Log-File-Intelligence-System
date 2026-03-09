@@ -1,6 +1,6 @@
 const paginationUtil = (page, limit, total) => {
-  const currentPage = Number(page);
-  const limitNumber = Number(limit);
+  const currentPage = Number(page) || 1;
+  const limitNumber = Number(limit) || 10;
 
   const totalPages = Math.ceil(total / limitNumber);
 

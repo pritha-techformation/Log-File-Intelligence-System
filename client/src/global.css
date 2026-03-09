@@ -100,3 +100,26 @@ body {
   text-align: center;
   color: gray;
 }
+
+/* Pagination */
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.pagination button {
+  padding: 6px 6px;
+  border-radius: 6px;
+  border: none;
+  background: #6366f1;
+  color: white;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

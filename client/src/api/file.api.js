@@ -8,11 +8,9 @@ export const uploadLog = (formData) =>
 export const getMyLogs = () => API.get("/logs/my");
 
 export const getLogById = (id) => API.get(`/logs/${id}`);
+export const getAllLogs = (params) =>
+  API.get(`/logs/alllogs`, { params });
 
-export const getAllLogs = (page, search) =>
-  API.get(`/logs/alllogs?page=${page}&search=${search}`);
-
-import axios from "axios";
 
 export const getPublicReport = (id) => {
   return axios.get(`/api/logs/report/${id}`);
