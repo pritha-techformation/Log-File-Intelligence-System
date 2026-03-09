@@ -11,3 +11,9 @@ export const getLogById = (id) => API.get(`/logs/${id}`);
 
 export const getAllLogs = (page, search) =>
   API.get(`/logs/alllogs?page=${page}&search=${search}`);
+
+import axios from "axios";
+
+export const getPublicReport = (id) => {
+  return axios.get(`/api/logs/report/${id}`);
+};

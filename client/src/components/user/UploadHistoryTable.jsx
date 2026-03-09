@@ -91,12 +91,11 @@ const UploadHistoryTable = () => {
 
     {/* MODAL */}
     {selectedLog && (
-      <AnalysisCard
-        log={selectedLog}
-        id={selectedLog._id}
-        onClose={() => setSelectedLog(null)}
-      />
-    )}
+        <AnalysisCard
+          log={selectedLog}
+          onClose={() => setSelectedLog(null)}
+        />
+      )}
 
     {/* ERROR CHART */}
     {selectedLog && (

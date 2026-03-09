@@ -7,5 +7,6 @@ router.post("/upload", auth, upload.single("file"), controller.uploadLog);
 router.get("/my", auth, controller.getMyLogs);
 router.get("/alllogs", auth, controller.getAllLogs);
 router.get("/:id", auth, controller.getLogById);
+router.get("/report/:id", controller.getPublicReport);
 
 module.exports = router;

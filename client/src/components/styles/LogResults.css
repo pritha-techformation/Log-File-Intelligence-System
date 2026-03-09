@@ -123,3 +123,27 @@ button:hover{
   }
 
 }
+
+.errors-card {
+  margin-top: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+.error-list {
+  max-height: 300px;
+  overflow-y: auto;
+  background: #111827;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.error-item {
+  font-family: monospace;
+  font-size: 13px;
+  color: #ff6b6b;
+  padding: 6px 8px;
+  border-bottom: 1px solid #374151;
+}

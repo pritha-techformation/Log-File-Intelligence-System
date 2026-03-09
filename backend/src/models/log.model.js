@@ -34,11 +34,9 @@ const logSchema = new mongoose.Schema(
           type: {
             type: String,
             required: true,
+            default: "Unknown Error",
           },
-          count: {
-            type: Number,
-            required: true,
-          },
+          count: Number,
         },
       ],
 
@@ -56,6 +54,10 @@ const logSchema = new mongoose.Schema(
           count: Number,
         },
       ],
+      errors: {
+        type: [String],
+        default: [],
+      },
     },
   },
   { timestamps: true },
