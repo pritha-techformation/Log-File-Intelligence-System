@@ -28,6 +28,14 @@ router.patch(
   controller.markInactive
 );
 
+// Mark user active
+router.patch(
+  "/:id/active",
+  auth,
+  authorize(["admin"]),
+  controller.markActive
+);
+
 // Delete user
 router.delete(
   "/:id",

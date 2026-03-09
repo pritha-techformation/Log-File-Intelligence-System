@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import "../styles/UserTable.css";
 import { getUsers } from "../../api/user.api";
-import { markInactive } from "../../api/user.api";
+import { markInactive, markActive } from "../../api/user.api";
 import { approveUser } from "../../api/user.api";
 import { deleteUser } from "../../api/user.api";
 // import { fetchStats } from "../../pages/admin/AdminDashboard";
@@ -73,6 +73,25 @@ const UserTable = () => {
         try {
           await markInactive(id);
           toast.success("User marked inactive");
+          fetchUsers();
+        } catch {
+          toast.error("Action failed");
+        }
+        setDialogOpen(false);
+      },
+    });
+
+    setDialogOpen(true);
+  };
+
+  const handleActivate = (id) => {
+    setDialogConfig({
+      title: "Activate User",
+      message: "This user will regain access to the system.",
+      onConfirm: async () => {
+        try {
+          await markActive(id);
+          toast.success("User activated");
           fetchUsers();
         } catch {
           toast.error("Action failed");
@@ -199,6 +218,16 @@ const UserTable = () => {
                           onClick={() => handleInactive(user._id)}
                         >
                           Inactivate
+                        </button>
+                      )}
+
+                    {user.status === "approved" &&
+                      user.activity === "inactive" && (
+                        <button
+                          className="approve-btn"
+                          onClick={() => handleActivate(user._id)}
+                        >
+                          Activate
                         </button>
                       )}
 

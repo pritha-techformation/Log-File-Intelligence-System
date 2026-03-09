@@ -6,4 +6,6 @@ export const approveUser = (id) => API.patch(`/users/${id}/approve`);
 
 export const markInactive = (id) => API.patch(`/users/${id}/inactive`);
 
+export const markActive = (id) => API.patch(`/users/${id}/active`);
+
 export const deleteUser = (id) => API.delete(`/users/${id}`);
