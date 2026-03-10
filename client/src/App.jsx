@@ -75,9 +75,6 @@ const App = () => {
           }
         />
 
-        {/* Public Report View */}
-        <Route path="/report/:id" element={<PublicReport />} />
-
         {/* Page shown when user is waiting for admin approval */}
         <Route path="/waitingforapproval" element={<WaitingApproval />} />
 
