@@ -1,10 +1,14 @@
 import { X, FileText, AlertTriangle, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 
+// Analysis Card
 const AnalysisCard = ({ log, onClose }) => {
+
+  // If the log is not found, return null
   const id = log?._id;
   if (!log) return null;
 
+  // Determine the status color
   const statusColor =
     log.status === "completed"
       ? "bg-green-100 text-green-700"
@@ -117,22 +121,6 @@ const AnalysisCard = ({ log, onClose }) => {
           </div>
         </div>
 
-        {/* Error Logs
-        <div className="mb-4">
-          <h3 className="font-semibold mb-2">Detected Errors</h3>
-
-          <div className="max-h-[200px] overflow-y-auto border rounded-md p-3 bg-gray-50 text-sm">
-            {log.analysis?.errors?.length ? (
-              log.analysis.errors.map((err, i) => (
-                <div key={i} className="border-b py-1 last:border-none">
-                  {err}
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-500">No errors found</p>
-            )}
-          </div>
-        </div> */}
 
         {/* Button */}
         <Link

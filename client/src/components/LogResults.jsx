@@ -17,6 +17,7 @@ import {
 } from "chart.js";
 import "./styles/LogResults.css";
 
+// Register chart components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,22 +27,30 @@ ChartJS.register(
   Legend,
 );
 
+// Log Results Component 
 const LogResults = () => {
+  // Get log id from url
   const { id } = useParams();
+  // States
   const [analysis, setAnalysis] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Check if device is mobile
   useEffect(() => {
+    
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
+    // Check on initial render
     checkMobile();
     window.addEventListener("resize", checkMobile);
 
+    // Cleanup
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Fetch log
   useEffect(() => {
     const fetchLog = async () => {
       try {
@@ -56,10 +65,12 @@ const LogResults = () => {
     fetchLog();
   }, [id]);
 
+  // Render loading indicator
   if (!analysis) {
     return <h2 className="loader">Analyzing Logs...</h2>;
   }
 
+  // Error Charts
   const errorChart = {
     labels: analysis?.topErrors?.map((e) => e.type) || [],
     datasets: [
@@ -70,6 +81,7 @@ const LogResults = () => {
     ],
   };
 
+  // Time Charts
   const timeChart = {
     labels: analysis?.timeRanges?.map((t) => t.range) || [],
     datasets: [
@@ -80,12 +92,15 @@ const LogResults = () => {
     ],
   };
 
+  // Download Full Report
   const downloadFullReport = () => {
   const pdf = new jsPDF();
 
+  // Header
   pdf.setFontSize(18);
   pdf.text("Log File Intelligence Report", 14, 20);
 
+  // Analysis
   pdf.setFontSize(12);
   pdf.text(`Total Errors: ${analysis.errorFrequency}`, 14, 35);
   pdf.text(
@@ -94,80 +109,66 @@ const LogResults = () => {
     45
   );
 
+  // Error Table
   const errorRows = analysis.topErrors.map((e) => [e.type, e.count]);
 
+  // Generate table
   autoTable(pdf, {
     startY: 60,
     head: [["Error Type", "Count"]],
     body: errorRows,
   });
 
+  // Time Table
   const timeRows = analysis.timeRanges.map((t) => [t.range, t.count]);
 
+  // Generate table
   autoTable(pdf, {
     startY: pdf.lastAutoTable.finalY + 10,
     head: [["Time Range", "Errors"]],
     body: timeRows,
   });
 
-  // ALL errors
-  const errorList = analysis.errors.map((e) => [e]);
-
-  autoTable(pdf, {
-    startY: pdf.lastAutoTable.finalY + 10,
-    head: [["Detected Errors"]],
-    body: errorList,
-  });
-
+  // Save PDF
   pdf.save("log-analysis-report.pdf");
 };
 
+// Download CSV
   const exportCSV = () => {
   let csv = "Error Type,Count\n";
 
+  // Generate CSV
   analysis.topErrors.forEach((e) => {
     csv += `${e.type},${e.count}\n`;
   });
 
+  // Time Range
   csv += "\nTime Range,Errors\n";
 
+  // Generate CSV for time ranges
   analysis.timeRanges.forEach((t) => {
     csv += `${t.range},${t.count}\n`;
   });
 
-  csv += "\nAll Detected Errors\n";
+  // Download CSV
 
-  analysis.errors.forEach((err) => {
-    csv += `"${err}"\n`;
-  });
-
+  // Create Blob
   const blob = new Blob([csv], { type: "text/csv" });
 
+  // Create download link
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = "log-analysis.csv";
   link.click();
 };
 
-  const shareReport = async () => {
-  const reportUrl = `${window.location.origin}/report/${id}`;
 
-  if (navigator.share) {
-    await navigator.share({
-      title: "Log Analysis Report",
-      text: "View this log analysis report",
-      url: reportUrl,
-    });
-  } else {
-    await navigator.clipboard.writeText(reportUrl);
-    toast.success("Report link copied to clipboard");
-  }
-};
 
   return (
     <div className="results-page">
       <h1>Log Analysis Report</h1>
 
+      {/* Stats */}
       <div className="stats-grid">
         <div className="stat-card">
           <h4>Total Errors</h4>
@@ -227,9 +228,6 @@ const LogResults = () => {
 
       {/* Actions */}
       <div className="actions">
-        <button className="mt-6" onClick={shareReport}>
-          Share Report
-        </button>
         <button className="mt-6" onClick={exportCSV}>
           Export CSV
         </button>

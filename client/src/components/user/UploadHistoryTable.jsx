@@ -1,24 +1,29 @@
 import { getMyLogs } from "../../api/file.api";
 import { useEffect, useState } from "react";
-// import LogDetailModal from "../admin/LogDetailsModal";
 import AnalysisCard from "./AnalysisCard";
-import ErrorChart from "../admin/ErrorCharts";
 
+// UploadHistoryTable component
 const UploadHistoryTable = () => {
+
+  // states
   const [logs, setLogs] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedLog, setSelectedLog] = useState(null);
 
+  // fetch logs
   const fetchLogs = async () => {
+    // Get all logs for the current user
     const res = await getMyLogs();
     setLogs(res.data);
     console.log(res.data);
   };
 
+  // useEffect to fetch logs
   useEffect(() => {
     fetchLogs();
   }, []);
 
+  // filter logs by file name
   const filteredLogs = logs.filter((log) =>
     log.fileName?.toLowerCase().includes(search.toLowerCase()),
   );
@@ -96,19 +101,6 @@ const UploadHistoryTable = () => {
           onClose={() => setSelectedLog(null)}
         />
       )}
-
-    {/* ERROR CHART */}
-    {selectedLog && (
-      <div className="mt-8">
-        <h3 className="text-base md:text-lg font-semibold mb-2">
-          Error Distribution
-        </h3>
-
-        <div className="w-full overflow-x-auto">
-          <ErrorChart data={selectedLog.analysis?.topErrors} />
-        </div>
-      </div>
-    )}
 
   </div>
 );

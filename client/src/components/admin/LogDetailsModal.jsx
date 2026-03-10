@@ -1,8 +1,11 @@
 import { X, FileText, AlertTriangle, Clock, User } from "lucide-react";
 
+// Log Detail Modal
 const LogDetailModal = ({ log, onClose }) => {
+  // If the log is not found, return null
   if (!log) return null;
 
+  // Determine the status color
   const statusColor =
     log.status === "completed"
       ? "bg-green-100 text-green-700"

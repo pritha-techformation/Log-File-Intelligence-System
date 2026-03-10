@@ -1,100 +1,175 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 import "./global.css";
-import Home from "./pages/Home";
-import Login from "./pages/auth/Login";
-import NotFound from "./pages/NotFound";
+
+// ----- Auth Context -----
+import { useAuth } from "./context/AuthContext";
+
+// ----- Layout Components -----
 import Layout from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
-import { useAuth } from "./context/AuthContext";
+
+// ----- Route Protection -----
+import ProtectedRoute from "./components/common/ProtectedRoute";
+
+// ----- Public Pages -----
+import Home from "./pages/Home";
+import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import LogoutPage from "./pages/auth/Logout";
+import NotFound from "./pages/NotFound";
+
+// ----- User Pages -----
+import HistoryPage from "./pages/user/HistoryPage";
+import WaitingApproval from "./pages/user/Waiting";
+
+// ----- Admin Pages -----
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UserManagement from "./pages/admin/UserManagement";
 import FileMonitoring from "./pages/admin/FileMonitoring";
-import HistoryPage from "./pages/user/HistoryPage";
-import LogResults from "./components/LogResults";
-import LogUpload from "./components/LogUpload";
-import WaitingApproval from "./pages/user/Waiting";
-import PublicReport from "./pages/PublicReport";
 
+// ----- Log Components -----
+import LogUpload from "./components/LogUpload";
+import LogResults from "./components/LogResults";
 
 const App = () => {
+  // Get authentication state
   const { isAuthenticated, loading } = useAuth();
+
+  // Get current route location
   const location = useLocation();
 
+  // Show loading screen while checking authentication
   if (loading) return <div>Loading...</div>;
 
-  // Hide Navbar & Footer on login page
-  const hideLayout = location.pathname === "/login" || location.pathname === "/signup";
+  // Hide Navbar and Footer on login and signup pages
+  const hideLayout =
+    location.pathname === "/login" || location.pathname === "/signup";
 
   return (
     <>
+      {/* Navbar */}
       {!hideLayout && <Layout />}
 
+      {/* Global Toast Notifications */}
       <Toaster position="top-right" />
+
+      {/* Application Routes */}
       <Routes>
-        <Route
-          path="/"
-          element={
-            isAuthenticated ? <Home /> : <Navigate to="/login" replace />
-          }
-        />
-        <Route
-          path="/admin/dashboard" rolerequires="admin"
-          element={
-            isAuthenticated ? <AdminDashboard /> : <Navigate to="/login" replace />
-          }
-        />
-        <Route
-          path="/admin/users" rolerequires="admin"
-          element={
-            isAuthenticated ? <UserManagement /> : <Navigate to="/login" replace />
-          }
-        />
-        <Route
-          path="/admin/files" rolerequires="admin"
-          element={
-            isAuthenticated ? <FileMonitoring /> : <Navigate to="/login" replace />
-          }
-        />
+
+        {/* ---------------- Public Routes ---------------- */}
+
+        {/* Login Page */}
         <Route
           path="/login"
           element={
             isAuthenticated ? <Navigate to="/" replace /> : <Login />
           }
         />
-        <Route
-          path="/history"
-          element={
-            isAuthenticated ? <HistoryPage /> : <Navigate to="/login" replace />
-          }
-        />
-        <Route
-          path="/upload"
-          element={
-            isAuthenticated ? <LogUpload /> : <Navigate to="/login" replace />
-          }
-        />
-        <Route path="/logs/:id" element={<LogResults />} />
+
+        {/* Signup Page */}
         <Route
           path="/signup"
           element={
-            isAuthenticated ? <Navigate to="/login" replace /> : <Signup />
+            isAuthenticated ? <Navigate to="/" replace /> : <Signup />
           }
         />
+
+        {/* Page shown when user is waiting for admin approval */}
+        <Route path="/waitingforapproval" element={<WaitingApproval />} />
+
+        {/* ---------------- Protected Routes ---------------- */}
+
+        {/* Home Page */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Upload Log File */}
+        <Route
+          path="/upload"
+          element={
+            <ProtectedRoute>
+              <LogUpload />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* User Upload History */}
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <HistoryPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Log Analysis Result */}
+        <Route
+          path="/logs/:id"
+          element={
+            <ProtectedRoute>
+              <LogResults />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Logout */}
         <Route
           path="/logout"
           element={
-            isAuthenticated ? <LogoutPage /> : <Navigate to="/login" replace />
+            <ProtectedRoute>
+              <LogoutPage />
+            </ProtectedRoute>
           }
         />
-        <Route path="/report/:id" element={<PublicReport />} />
-        <Route path="/waitingforapproval" element={<WaitingApproval />} />
-        <Route path="/*" element={<NotFound />} />
+
+        {/* ---------------- Admin Routes ---------------- */}
+
+        {/* Admin Dashboard */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin User Management */}
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute role="admin">
+              <UserManagement />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin File Monitoring */}
+        <Route
+          path="/admin/files"
+          element={
+            <ProtectedRoute role="admin">
+              <FileMonitoring />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ---------------- 404 Route ---------------- */}
+
+        {/* Catch all undefined routes */}
+        <Route path="*" element={<NotFound />} />
+
       </Routes>
 
-
+      {/* Footer */}
       {!hideLayout && <Footer />}
     </>
   );

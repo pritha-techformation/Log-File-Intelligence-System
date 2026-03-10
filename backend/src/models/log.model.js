@@ -1,5 +1,10 @@
+// models/log.model.js
+
+// import mongoose to connect to MongoDB
 const mongoose = require("mongoose");
 
+
+// create a schema for logs
 const logSchema = new mongoose.Schema(
   {
     user: {

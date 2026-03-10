@@ -4,42 +4,51 @@ import { signupUser } from "../../api/auth.api";
 import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 
+// Signup component
 const Signup = () => {
+  // Hooks
   const { signup } = useAuth();
   const navigate = useNavigate();
+
+  // State
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  // Handle form submission
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    await signupUser({ name, email, password, confirmPassword });
+    // Get the form data
+    try {
+      await signupUser({ name, email, password, confirmPassword });
 
-    toast.success("Signup successful! Waiting for admin approval.");
+      toast.success("Signup successful! Waiting for admin approval.");
 
-    setTimeout(() => {
-      navigate("/waitingforapproval");
-    }, 2000);
-
-  } catch (error) {
-    toast.error(error.response?.data?.message || "Signup failed");
-    console.log(error.response?.data);
-  }
-};
-
+      // Wait for 2 seconds and navigate to the waiting page
+      setTimeout(() => {
+        navigate("/waitingforapproval");
+      }, 2000);
+    } catch (error) {
+      // Handle error
+      toast.error(error.response?.data?.message || "Signup failed");
+      console.log(error.response?.data);
+    }
+  };
 
   return (
     <div className="container mx-auto px-12 py-8 border border-gray-300 rounded mt-10 max-w-md shadow-md bg-white min-h-screen flex flex-col justify-center">
-
       <h1 className="text-3xl font-bold text-center mt-10">Signup</h1>
+      {/* Signup form */}
       <form
         onSubmit={handleSubmit}
         className="flex justify-center flex-col mt-6"
       >
+        {/* Form fields */}
+
+        {/* Name */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -55,6 +64,7 @@ const Signup = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
+        {/* Email */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -70,6 +80,7 @@ const Signup = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
+        {/* Password */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -85,6 +96,7 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {/* Confirm Password */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -100,6 +112,7 @@ const Signup = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
+        {/* Show Password */}
         <div className="flex items-center mt-2">
           <input
             type="checkbox"
@@ -113,6 +126,7 @@ const Signup = () => {
           </label>
         </div>
 
+        {/* Signup button */}
         <div className="flex items-center justify-center">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded cursor-pointer focus:outline-none focus:shadow-outline hover:shadow-lg transition duration-300 ease-in-out"
@@ -122,6 +136,8 @@ const Signup = () => {
           </button>
         </div>
       </form>
+
+      {/* Login link */}
       <p className="text-gray-700 flex justify-center items-center mt-2">
         Already have an account? <a href="/login">Login</a>
       </p>

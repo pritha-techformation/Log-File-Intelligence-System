@@ -1,3 +1,4 @@
+// routes/user.routes.js
 const router = require("express").Router();
 
 const auth = require("../middleware/auth.middleware");
@@ -26,6 +27,14 @@ router.patch(
   auth,
   authorize(["admin"]),
   controller.markInactive
+);
+
+// Mark user active
+router.patch(
+  "/:id/active",
+  auth,
+  authorize(["admin"]),
+  controller.markActive
 );
 
 // Delete user

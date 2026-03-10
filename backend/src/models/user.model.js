@@ -1,6 +1,9 @@
+// models/user.model.js
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+
+// create a schema for users
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -21,7 +24,13 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-
+// Hash password before saving
+// Uncomment the following line if you want to hash the password for admin during seeding
+// userSchema.pre("save", async function (next) {
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next();
+// });
 
 
 // Method to compare passwords
