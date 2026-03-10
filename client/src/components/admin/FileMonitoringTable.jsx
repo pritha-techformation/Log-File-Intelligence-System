@@ -180,12 +180,12 @@ const FileMonitoring = () => {
         />
       )}
 
-      {selectedLog && (
+      {/* {selectedLog && (
         <div className="mt-8">
           <h3 className="text-lg font-semibold mb-2">Error Distribution</h3>
           <ErrorChart data={selectedLog.analysis?.topErrors} />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

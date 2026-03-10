@@ -133,12 +133,21 @@ class LogAnalyzerService {
       mostFrequentTimeRange = `${hour}:00 - ${hour}:59`;
     }
 
-    const timeRanges = Object.entries(timeMap)
-      .sort((a, b) => a[0] - b[0])
-      .map(([hour, count]) => ({
-        range: `${hour.padStart(2, "0")}:00`,
-        count,
-      }));
+   const timeRanges = Object.entries(timeMap)
+  .sort((a, b) => Number(a[0]) - Number(b[0]))
+  .map(([hour, count]) => {
+
+    const startHour = parseInt(hour);
+    const endHour = (startHour + 1) % 24;
+
+    const start = String(startHour).padStart(2, "0");
+    const end = String(endHour).padStart(2, "0");
+
+    return {
+      range: `${start}:00 - ${end}:00`,
+      count,
+    };
+  });
 
     return {
       topErrors,

@@ -98,7 +98,7 @@ const UploadHistoryTable = () => {
       )}
 
     {/* ERROR CHART */}
-    {selectedLog && (
+    {/* {selectedLog && (
       <div className="mt-8">
         <h3 className="text-base md:text-lg font-semibold mb-2">
           Error Distribution
@@ -108,7 +108,7 @@ const UploadHistoryTable = () => {
           <ErrorChart data={selectedLog.analysis?.topErrors} />
         </div>
       </div>
-    )}
+    )} */}
 
   </div>
 );
