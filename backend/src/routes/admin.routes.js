@@ -19,4 +19,12 @@ router.put(
   controller.updateProfile
 );
 
+// Get admin stats
+router.get(
+  "/stats",
+  auth,
+  authorize(["admin"]),
+  controller.getStats
+);
+
 module.exports = router;

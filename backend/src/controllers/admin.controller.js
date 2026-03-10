@@ -38,3 +38,24 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.getStats = async (req, res) => {
+  const total = await User.countDocuments();
+  const active = await User.countDocuments({ status: "active" });
+  const inactive = await User.countDocuments({ status: "inactive" });
+  const pending = await User.countDocuments({ status: "pending" });
+  const approved = await User.countDocuments({ status: "approved" });
+
+  const latestPending = await User.find({ status: "pending" })
+    .sort({ createdAt: -1 })
+    .limit(5);
+
+  res.json({
+    total,
+    active,
+    inactive,
+    pending,
+    approved,
+    latestPending
+  });
+};

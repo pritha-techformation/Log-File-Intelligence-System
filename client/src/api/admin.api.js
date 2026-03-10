@@ -5,3 +5,6 @@ export const getAdmin = () => API.get("/admin/dashboard");
 
 // Update logged-in admin profile
 export const updateAdmin = (data) => API.put("/admin/profile", data);
+
+// Get admin stats
+export const getAdminStats = () => API.get("/admin/stats");

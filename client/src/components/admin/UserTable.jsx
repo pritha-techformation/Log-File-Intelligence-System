@@ -40,11 +40,7 @@ const UserTable = () => {
         page,
         limit: 5,
         search: search.trim() || undefined,
-        status:
-          statusFilter === "pending" || statusFilter === "approved"
-            ? statusFilter
-            : undefined,
-        activity: statusFilter === "inactive" ? "inactive" : undefined,
+        status: statusFilter !== "all" ? statusFilter : undefined,
       });
 
       // Filter out admin
@@ -211,7 +207,7 @@ const UserTable = () => {
                 <th>Email</th>
                 <th>Status</th>
                 <th>Role</th>
-                <th>Activity</th>
+                {/* <th>Activity</th> */}
                 <th style={{ textAlign: "center" }}>Actions</th>
               </tr>
             </thead>
@@ -232,9 +228,9 @@ const UserTable = () => {
                     <span className="role">{user.role}</span>
                   </td>
 
-                  <td>
+                  {/* <td>
                     <span className="activity">{user.activity}</span>
-                  </td>
+                  </td> */}
 
                   <td className="actions">
                     {user.status === "pending" && (
@@ -246,25 +242,24 @@ const UserTable = () => {
                       </button>
                     )}
 
-                    {user.status === "approved" &&
-                      user.activity === "active" && (
-                        <button
-                          className="inactive-btn"
-                          onClick={() => handleInactive(user._id)}
-                        >
-                          Inactivate
-                        </button>
-                      )}
+                    {user.status === "active" && 
+                    user.status !== "approved" && (
+                      <button
+                        className="inactive-btn"
+                        onClick={() => handleInactive(user._id)}
+                      >
+                        Inactivate
+                      </button>
+                    )}
 
-                    {user.status === "approved" &&
-                      user.activity === "inactive" && (
-                        <button
-                          className="approve-btn"
-                          onClick={() => handleActivate(user._id)}
-                        >
-                          Activate
-                        </button>
-                      )}
+                    {user.status === "inactive" && (
+                      <button
+                        className="approve-btn"
+                        onClick={() => handleActivate(user._id)}
+                      >
+                        Activate
+                      </button>
+                    )}
 
                     <button
                       className="delete-btn"

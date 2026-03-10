@@ -8,7 +8,7 @@ exports.getUsers = async (req, res) => {
     const query = {};
 
     // Get parameters
-    const { page = 1, limit = 5, search = "", status, activity } = req.query;
+    const { page = 1, limit = 5, search = "", status } = req.query;
 
     const pageNumber = Number(page);
     const limitNumber = Number(limit);
@@ -23,10 +23,7 @@ exports.getUsers = async (req, res) => {
       query.status = status;
     }
 
-    // Filter by activity
-    if (activity) {
-      query.activity = activity;
-    }
+ 
 
     const total = await User.countDocuments(query);
 
@@ -69,7 +66,7 @@ exports.markInactive = async (req, res) => {
 
   // Update user activity status to inactive
   await User.findByIdAndUpdate(req.params.id, {
-    activity: "inactive",
+    status: "inactive",
   });
 
   // Return response
@@ -80,7 +77,7 @@ exports.markInactive = async (req, res) => {
 exports.markActive = async (req, res) => {
   // Update user activity status to active
   await User.findByIdAndUpdate(req.params.id, {
-    activity: "active",
+    status: "active",
   });
 
   res.json({ success: true, message: "User marked active" });
