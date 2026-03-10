@@ -2,9 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles/HeroSection.css";
 
+// Hero Section
 const HeroSection = () => {
+
+  // Navigation handler
   const navigate = useNavigate();
 
+  // Analyze button handler
   const handleAnalyze = () => {
     navigate("/upload");
   };
@@ -22,6 +26,7 @@ const HeroSection = () => {
           patterns, and insights.
         </p>
 
+        {/* Analyze button */}
         <button className="hero-btn" onClick={handleAnalyze}>
           Analyze Logs Smartly
         </button>

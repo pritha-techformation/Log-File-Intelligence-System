@@ -6,8 +6,11 @@ import { approveUser } from "../../api/user.api";
 import toast from "react-hot-toast";
 import StatCard from "./StatCard";
 
+// Admin dashboard
 const AdminDashboard = () => {
+  // Context
   const { user } = useAuth();
+  // State
   const [admin, setAdmin] = useState({});
   const [stats, setStats] = useState({
     total: 0,
@@ -20,51 +23,66 @@ const AdminDashboard = () => {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // Fetch Stats
   const fetchStats = async () => {
     try {
+      // Get all users
       const res = await getUsers();
       const users = res.data.users || res.data;
 
+      // Calculate stats
       const total = users.length;
       const active = users.filter((u) => u.activity === "active").length;
       const pending = users.filter((u) => u.status === "pending").length;
       const inactive = users.filter((u) => u.activity === "inactive").length;
       const approved = users.filter((u) => u.status === "approved").length;
 
+      // Get latest 5 pending users
       const latestPending = users
         .filter((u) => u.status === "pending")
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, 5);
 
+        // Set state
       setPendingUsers(latestPending);
 
+      //  Set stats
       setStats({ total, active, pending, inactive, approved });
     } catch (err) {
+      // Handle error
       toast.error("Failed to load statistics");
     }
   };
 
+  // Fetch Admin
   const fetchAdmin = async () => {
+    // Set loading to true
     try {
+      // Get admin
       const response = await getAdmin();
       setAdmin(response.data);
     } catch (error) {
+      // Handle error
       toast.error("Failed to fetch admin details");
     } finally {
+      // Set loading to false
       setLoading(false);
     }
   };
 
+  // useEffect
   useEffect(() => {
     fetchAdmin();
     fetchStats();
   }, []);
 
+  // Handle input change for Admin
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setAdmin((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle update click for Admin
   const handleUpdateClick = async () => {
     try {
       const response = await updateAdmin(admin);
@@ -76,6 +94,7 @@ const AdminDashboard = () => {
     }
   };
 
+  // Handle approve click for user
   const handleApprove = async (id) => {
     try {
       await approveUser(id);
@@ -86,6 +105,7 @@ const AdminDashboard = () => {
     }
   };
 
+  // Render loading  
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen text-gray-600">
@@ -137,11 +157,9 @@ const AdminDashboard = () => {
               <h2 className="text-xl font-semibold text-gray-700">
                 Profile Information
               </h2>
-              {/* <span className="inline-block mt-2 px-3 py-1 text-sm rounded-full bg-purple-100 text-purple-700 font-medium">
-                {admin.role || "Admin"}
-              </span> */}
             </div>
 
+            {/* Edit Button */}
             {!editMode ? (
               <button
                 onClick={() => setEditMode(true)}

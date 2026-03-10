@@ -3,11 +3,14 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../../components/styles/Navbar.css";
 
+// AdminNavbar component
 const AdminNavbar = () => {
+  // Menu State
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav className="navbar admin-navbar">
+      {/* Logo */}
       <h1 className="logo">
         <a href="/">Admin Panel</a></h1>
 
@@ -19,6 +22,7 @@ const AdminNavbar = () => {
         ☰
       </div>
 
+      {/* Navigation Links */}
       <ul className={`nav-links z-50 ${menuOpen ? "active" : ""}`}>
         <li><NavLink to="/admin/dashboard">Dashboard</NavLink></li>
         <li><NavLink to="/admin/users">All Users</NavLink></li>

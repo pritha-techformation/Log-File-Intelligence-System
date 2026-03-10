@@ -1,11 +1,15 @@
+// components/admin/FileMonitoringTable.jsx
 import { useEffect, useState } from "react";
 import { getAllLogs } from "../../../../client/src/api/file.api";
 import LogDetailModal from "./LogDetailsModal";
-import ErrorChart from "./ErrorCharts";
 
+// Pagination constants
 const PAGE_SIZE = 5;
 
+// FileMonitoring component 
 const FileMonitoring = () => {
+
+  // states
   const [logs, setLogs] = useState([]);
   const [selectedLog, setSelectedLog] = useState(null);
   const [userSearch, setUserSearch] = useState("");
@@ -13,8 +17,11 @@ const FileMonitoring = () => {
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({});
 
+  // fetch logs
   const fetchLogs = async () => {
     try {
+
+      // Get all logs with pagination from api
       const res = await getAllLogs({
         page,
         limit: PAGE_SIZE,
@@ -22,9 +29,11 @@ const FileMonitoring = () => {
         file: fileSearch,
       });
 
+      // Set logs and pagination
       setLogs(res.data.logs || []);
       setPagination(res.data.pagination || {});
     } catch (error) {
+      // Handle error
       console.error("Failed to fetch logs", error);
       setLogs([]);
     }
@@ -40,24 +49,30 @@ const FileMonitoring = () => {
     setPage(1);
   }, [userSearch, fileSearch]);
 
+  // handle pagination controls
+
+  // handle page change to previous
   const handlePrev = () => {
     if (pagination?.previousPage) {
       setPage(pagination.previousPage);
     }
   };
 
+  // handle page change to next
   const handleNext = () => {
     if (pagination?.nextPage) {
       setPage(pagination.nextPage);
     }
   };
 
+  // calculate total pages
   const totalPages = pagination?.totalPages || 1;
 
   return (
     <div className="p-4 md:p-6">
       <h2 className="text-xl md:text-2xl font-bold mb-4">File Monitoring</h2>
 
+      {/* SEARCH */}
       <div className="flex flex-wrap gap-3 mb-6">
         <input
           type="text"
@@ -173,6 +188,7 @@ const FileMonitoring = () => {
         ))}
       </div>
 
+        {/* Log details modal */}
       {selectedLog && (
         <LogDetailModal
           log={selectedLog}
@@ -180,12 +196,6 @@ const FileMonitoring = () => {
         />
       )}
 
-      {/* {selectedLog && (
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold mb-2">Error Distribution</h3>
-          <ErrorChart data={selectedLog.analysis?.topErrors} />
-        </div>
-      )} */}
     </div>
   );
 };

@@ -4,27 +4,37 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../../components/styles/Navbar.css";
 
+// UserNavbar component
 const UserNavbar = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
-  
+  // Menu State
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav className="navbar">
-      <h1><Link to="/">LogIntel System</Link></h1>
+      {/* Logo */}
+      <h1>
+        <Link to="/">LogIntel System</Link>
+      </h1>
 
-       {/* Hamburger */}
-      <div
-        className="hamburger"
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
+      {/* Hamburger */}
+      <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
         ☰
       </div>
 
+      {/* Navigation Links */}
       <ul className={`nav-links z-50 ${menuOpen ? "active" : ""}`}>
-        <li><NavLink to="/">Home</NavLink></li>
-        <li><NavLink to="/upload">Upload Logs</NavLink></li>
-        <li><NavLink to="/history">Upload History</NavLink></li>
-        <li><NavLink to="/logout">Logout</NavLink></li>
+        <li>
+          <NavLink to="/">Home</NavLink>
+        </li>
+        <li>
+          <NavLink to="/upload">Upload Logs</NavLink>
+        </li>
+        <li>
+          <NavLink to="/history">Upload History</NavLink>
+        </li>
+        <li>
+          <NavLink to="/logout">Logout</NavLink>
+        </li>
       </ul>
     </nav>
   );

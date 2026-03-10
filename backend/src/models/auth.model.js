@@ -1,6 +1,11 @@
+// models/auth.model.js
+
+// import mongoose to connect to MongoDB
 const mongoose = require('mongoose');
+// import bcrypt to encrypt password
 const bcrypt = require('bcryptjs');
 
+// create a schema for authentication
 const authSchema = new mongoose.Schema(
     {
         email: {

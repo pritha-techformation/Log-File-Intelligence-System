@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import "../styles/UserTable.css";
-import { getUsers } from "../../api/user.api";
-import { markInactive, markActive } from "../../api/user.api";
-import { approveUser } from "../../api/user.api";
-import { deleteUser } from "../../api/user.api";
-// import { fetchStats } from "../../pages/admin/AdminDashboard";
+import { getUsers, markInactive, markActive, approveUser, deleteUser } from "../../api/user.api";
 import ConfirmationDialog from "../common/ConfirmationDialog";
 
+
+// User table component
 const UserTable = () => {
+
+  // states
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -20,10 +20,14 @@ const UserTable = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [pagination, setPagination] = useState({});
 
+  // fetch users from api
   const fetchUsers = async () => {
+
+    // Get all users
     try {
       setLoading(true);
 
+      // Get users from api with pagination and search
       const res = await getUsers({
         page,
         limit: 5,
@@ -31,22 +35,29 @@ const UserTable = () => {
         status: statusFilter !== "all" ? statusFilter : undefined,
       });
 
+      // Filter out admin
       const filteredUsers = res.data.users.filter(
         (user) => user.role !== "admin",
       );
 
+      // Set users and pagination
       setUsers(filteredUsers);
       setPagination(res.data.pagination || {});
     } catch (err) {
+      // Handle error
       toast.error("Failed to fetch users");
     } finally {
+      // Set loading to false
       setLoading(false);
     }
   };
+
+  // fetch users when search or status filter changes
   useEffect(() => {
     setPage(1);
   }, [search, statusFilter]);
 
+  // fetch users when page changes
   useEffect(() => {
     const delay = setTimeout(() => {
       fetchUsers();
@@ -55,6 +66,7 @@ const UserTable = () => {
     return () => clearTimeout(delay);
   }, [page, search, statusFilter]);
 
+  // handle approve
   const handleApprove = async (id) => {
     try {
       await approveUser(id);
@@ -65,6 +77,7 @@ const UserTable = () => {
     }
   };
 
+  // handle inactive
   const handleInactive = (id) => {
     setDialogConfig({
       title: "Mark User Inactive",
@@ -84,6 +97,7 @@ const UserTable = () => {
     setDialogOpen(true);
   };
 
+  // handle activate
   const handleActivate = (id) => {
     setDialogConfig({
       title: "Activate User",
@@ -103,11 +117,16 @@ const UserTable = () => {
     setDialogOpen(true);
   };
 
+  // handle delete
   const handleDelete = (id) => {
+
+    // set dialog config for delete
     setDialogConfig({
       title: "Delete User",
       message:
         "This action cannot be undone. Are you sure you want to delete this user?",
+
+        // on confirm delete user by id
       onConfirm: async () => {
         try {
           await deleteUser(id);
@@ -125,6 +144,8 @@ const UserTable = () => {
 
   return (
     <div className="user-table-layout">
+
+      {/* FILTER TOPBAR */}
       <div className="filter-sidebar">
         <h1>Filters</h1>
 
@@ -156,6 +177,8 @@ const UserTable = () => {
           Inactive
         </button>
       </div>
+
+      {/* SEARCH BAR */}
       <div className="table-controls">
         <input
           type="text"
@@ -165,6 +188,8 @@ const UserTable = () => {
           className="search-input"
         />
       </div>
+
+      {/* TABLE */}
       <div className="user-table-wrapper">
         {loading ? (
           <div className="loading">Loading users...</div>
@@ -244,6 +269,8 @@ const UserTable = () => {
           </table>
         )}
       </div>
+
+      {/* PAGINATION */}
       <div className="pagination">
         <button
           disabled={!pagination?.previousPage}
@@ -263,6 +290,8 @@ const UserTable = () => {
           Next →
         </button>
       </div>
+
+      {/* CONFIRMATION DIALOG */}
       <ConfirmationDialog
         isOpen={dialogOpen}
         title={dialogConfig.title}

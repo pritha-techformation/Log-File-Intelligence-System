@@ -1,6 +1,10 @@
 import React from "react";
 
+
+// Confirmation Dialog
 const ConfirmationDialog = ({ isOpen, title, message, onConfirm, onCancel }) => {
+
+  // If the dialog is not open, return null
   if (!isOpen) return null;
 
   return (
