@@ -168,50 +168,48 @@ const UserTable = () => {
     <div className="user-table-layout">
       {/* FILTER TOPBAR */}
       <div className="filter-sidebar">
-        <h1>Filters</h1>
+        
+        <div className="filter-controls">
+          
+          <button
+            className={statusFilter === "all" ? "active-filter" : ""}
+            onClick={() => setStatusFilter("all")}
+          >
+            All Users
+          </button>
 
-        <button
-          className={statusFilter === "all" ? "active-filter" : ""}
-          onClick={() => setStatusFilter("all")}
-        >
-          All Users
-        </button>
+          <button
+            className={statusFilter === "pending" ? "active-filter" : ""}
+            onClick={() => setStatusFilter("pending")}
+          >
+            Pending
+          </button>
 
-        <button
-          className={statusFilter === "pending" ? "active-filter" : ""}
-          onClick={() => setStatusFilter("pending")}
-        >
-          Pending
-        </button>
+          <button
+            className={statusFilter === "approved" ? "active-filter" : ""}
+            onClick={() => setStatusFilter("approved")}
+          >
+            Approved
+          </button>
 
-        <button
-          className={
-            statusFilter === "approved"
-              ? "active-filter"
-              : ""
-          }
-          onClick={() => setStatusFilter("approved")}
-        >
-          Approved
-        </button>
+          <button
+            className={statusFilter === "inactive" ? "active-filter" : ""}
+            onClick={() => setStatusFilter("inactive")}
+          >
+            Inactive
+          </button>
+        </div>
 
-        <button
-          className={statusFilter === "inactive" ? "active-filter" : ""}
-          onClick={() => setStatusFilter("inactive")}
-        >
-          Inactive
-        </button>
-      </div>
-
-      {/* SEARCH BAR */}
-      <div className="table-controls">
-        <input
-          type="text"
-          placeholder="Search by name or email..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="search-input"
-        />
+        {/* SEARCH BAR */}
+        <div className="table-controls">
+          <input
+            type="text"
+            placeholder="Search by name or email..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="search-input"
+          />
+        </div>
       </div>
 
       {/* TABLE */}
