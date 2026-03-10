@@ -37,15 +37,15 @@ const UserTable = () => {
 
       // Get users from api with pagination and search
       const res = await getUsers({
-  page,
-  limit: 5,
-  search: search.trim() || undefined,
-  status:
-    statusFilter === "pending" || statusFilter === "approved"
-      ? statusFilter
-      : undefined,
-  activity: statusFilter === "inactive" ? "inactive" : undefined,
-});
+        page,
+        limit: 5,
+        search: search.trim() || undefined,
+        status:
+          statusFilter === "pending" || statusFilter === "approved"
+            ? statusFilter
+            : undefined,
+        activity: statusFilter === "inactive" ? "inactive" : undefined,
+      });
 
       // Filter out admin
       const filteredUsers = res.data.users.filter(

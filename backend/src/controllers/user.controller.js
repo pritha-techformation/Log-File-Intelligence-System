@@ -31,6 +31,7 @@ exports.getUsers = async (req, res) => {
     const total = await User.countDocuments(query);
 
     const users = await User.find(query)
+    .sort({ createdAt: -1 })
       .select("-password")
       .skip((pageNumber - 1) * limitNumber)
       .limit(limitNumber);
