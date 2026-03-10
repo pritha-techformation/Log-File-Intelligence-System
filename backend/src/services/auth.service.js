@@ -44,6 +44,11 @@ class AuthService {
       throw new AppError("User not found", 404);
     }
 
+    // Throw error if user is inactive
+    if (user.status === "inactive") {
+      throw new AppError("User is inactive. Contact admin", 403);
+    }
+
     // Throw error if user is not approved
     if (user.status !== "approved") {
       throw new AppError("User not approved", 403);

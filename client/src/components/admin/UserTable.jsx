@@ -6,7 +6,7 @@ import "../styles/UserTable.css";
 import {
   getUsers,
   markInactive,
-  markActive,
+  // markActive,
   approveUser,
   deleteUser,
 } from "../../api/user.api";
@@ -37,15 +37,11 @@ const UserTable = () => {
 
       // Get users from api with pagination and search
       const res = await getUsers({
-  page,
-  limit: 5,
-  search: search.trim() || undefined,
-  status:
-    statusFilter === "pending" || statusFilter === "approved"
-      ? statusFilter
-      : undefined,
-  activity: statusFilter === "inactive" ? "inactive" : undefined,
-});
+        page,
+        limit: 5,
+        search: search.trim() || undefined,
+        status: statusFilter !== "all" ? statusFilter : undefined,
+      });
 
       // Filter out admin
       const filteredUsers = res.data.users.filter(
@@ -116,7 +112,7 @@ const UserTable = () => {
       message: "This user will regain access to the system.",
       onConfirm: async () => {
         try {
-          await markActive(id);
+          await approveUser(id);
           toast.success("User activated");
           fetchUsers();
         } catch {
@@ -153,50 +149,67 @@ const UserTable = () => {
     setDialogOpen(true);
   };
 
+  const actions = {
+    pending: [
+      { label: "Approve", class: "approve-btn", action: handleApprove },
+      { label: "Delete", class: "delete-btn", action: handleDelete },
+    ],
+    approved: [
+      { label: "Inactivate", class: "inactive-btn", action: handleInactive },
+      { label: "Delete", class: "delete-btn", action: handleDelete },
+    ],
+    inactive: [
+      { label: "Activate", class: "approve-btn", action: handleActivate },
+      { label: "Delete", class: "delete-btn", action: handleDelete },
+    ],
+  };
+
   return (
     <div className="user-table-layout">
       {/* FILTER TOPBAR */}
       <div className="filter-sidebar">
-        <h1>Filters</h1>
+        
+        <div className="filter-controls">
+          
+          <button
+            className={statusFilter === "all" ? "active-filter" : ""}
+            onClick={() => setStatusFilter("all")}
+          >
+            All Users
+          </button>
 
-        <button
-          className={statusFilter === "all" ? "active-filter" : ""}
-          onClick={() => setStatusFilter("all")}
-        >
-          All Users
-        </button>
+          <button
+            className={statusFilter === "pending" ? "active-filter" : ""}
+            onClick={() => setStatusFilter("pending")}
+          >
+            Pending
+          </button>
 
-        <button
-          className={statusFilter === "pending" ? "active-filter" : ""}
-          onClick={() => setStatusFilter("pending")}
-        >
-          Pending
-        </button>
+          <button
+            className={statusFilter === "approved" ? "active-filter" : ""}
+            onClick={() => setStatusFilter("approved")}
+          >
+            Approved
+          </button>
 
-        <button
-          className={statusFilter === "approved" ? "active-filter" : ""}
-          onClick={() => setStatusFilter("approved")}
-        >
-          Approved
-        </button>
+          <button
+            className={statusFilter === "inactive" ? "active-filter" : ""}
+            onClick={() => setStatusFilter("inactive")}
+          >
+            Inactive
+          </button>
+        </div>
 
-        <button
-          className={statusFilter === "inactive" ? "active-filter" : ""}
-          onClick={() => setStatusFilter("inactive")}
-        >
-          Inactive
-        </button>
-      </div>
-
-      {/* SEARCH BAR */}
-      <div className="table-controls">
-        <input
-          type="text"
-          placeholder="Search by name or email..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="search-input"
-        />
+        {/* SEARCH BAR */}
+        <div className="table-controls">
+          <input
+            type="text"
+            placeholder="Search by name or email..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="search-input"
+          />
+        </div>
       </div>
 
       {/* TABLE */}
@@ -211,7 +224,7 @@ const UserTable = () => {
                 <th>Email</th>
                 <th>Status</th>
                 <th>Role</th>
-                <th>Activity</th>
+                {/* <th>Activity</th> */}
                 <th style={{ textAlign: "center" }}>Actions</th>
               </tr>
             </thead>
@@ -232,46 +245,20 @@ const UserTable = () => {
                     <span className="role">{user.role}</span>
                   </td>
 
-                  <td>
+                  {/* <td>
                     <span className="activity">{user.activity}</span>
-                  </td>
+                  </td> */}
 
                   <td className="actions">
-                    {user.status === "pending" && (
+                    {actions[user.status]?.map((btn, i) => (
                       <button
-                        className="approve-btn"
-                        onClick={() => handleApprove(user._id)}
+                        key={i}
+                        className={btn.class}
+                        onClick={() => btn.action(user._id)}
                       >
-                        Approve
+                        {btn.label}
                       </button>
-                    )}
-
-                    {user.status === "approved" &&
-                      user.activity === "active" && (
-                        <button
-                          className="inactive-btn"
-                          onClick={() => handleInactive(user._id)}
-                        >
-                          Inactivate
-                        </button>
-                      )}
-
-                    {user.status === "approved" &&
-                      user.activity === "inactive" && (
-                        <button
-                          className="approve-btn"
-                          onClick={() => handleActivate(user._id)}
-                        >
-                          Activate
-                        </button>
-                      )}
-
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(user._id)}
-                    >
-                      Delete
-                    </button>
+                    ))}
                   </td>
                 </tr>
               ))}

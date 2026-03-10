@@ -150,18 +150,26 @@
 
 .filter-sidebar {
   display: flex;
-  /* justify-content: center; */
   align-items: center;
-  width: 180px;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
   padding: 20px;
   background: #f6f7fb;
   border-radius: 10px;
-  height: fit-content;
-  flex-direction: row;
-  gap: 10px;
   flex-wrap: nowrap;
-  /* margin-left: rem; */
-  /* text-align: center; */
+}
+
+/* Filters group */
+.filter-controls {
+  display: flex;
+  gap: 10px;
+}
+
+/* Search on right */
+.table-controls {
+  display: flex;
+  align-items: center;
 }
 
 /* Title */
@@ -192,21 +200,21 @@
 @media (max-width: 900px) {
 
   .filter-sidebar {
-    width: 100%;
-    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
   }
 
-  .filter-sidebar h3 {
+  .filter-controls {
     width: 100%;
-    text-align: center;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
-  .filter-sidebar button {
-    width: auto;
+  .table-controls {
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
   }
-
 }
 
 /* -------- Mobile -------- */
@@ -261,4 +269,9 @@
 
 .search-input:focus {
   border-color: #4f46e5;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 10px;
 }

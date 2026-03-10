@@ -1,6 +1,7 @@
 const Log = require("../models/log.model");
 const logAnalyzerService = require("../services/logAnalysis.service");
 const paginationUtil = require("../utils/pagination.util");
+const User = require("../models/user.model");
 
 // Upload Logs by Users
 exports.uploadLog = async (req, res) => {
@@ -17,7 +18,7 @@ exports.uploadLog = async (req, res) => {
     }
 
      // If user is inactive, prevent file upload
-    if (user.activity === "inactive") {
+    if (user.status === "inactive") {
       return res.status(403).json({
         message: "Your account is inactive. You cannot upload files.",
       });

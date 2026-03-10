@@ -37,10 +37,10 @@ const authSchema = new mongoose.Schema(
             enum: ['user', 'admin'],
             default: 'user',
         },
-        isActive: {
+        status: {
             type: String,
-            enum: ['active', 'inactive'],
-            default: 'active',
+            enum: [ 'pending', 'approved', 'inactive'],
+            default: 'pending',
         },
     },
     { timestamps: true }

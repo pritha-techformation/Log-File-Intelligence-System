@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { getAdmin, updateAdmin } from "../../api/admin.api";
+import { getAdmin, updateAdmin, getAdminStats } from "../../api/admin.api";
 import { getUsers } from "../../api/user.api";
 import { approveUser } from "../../api/user.api";
 import toast from "react-hot-toast";
@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   const [admin, setAdmin] = useState({});
   const [stats, setStats] = useState({
     total: 0,
-    active: 0,
+    // active: 0,
     pending: 0,
     inactive: 0,
     approved: 0,
@@ -27,34 +27,16 @@ const AdminDashboard = () => {
 
   // Fetch Stats
   const fetchStats = async () => {
-    try {
-      // Get all users
-      const res = await getUsers();
-      const users = res.data.users || res.data;
+  try {
+    const res = await getAdminStats();
 
-      // Calculate stats
-      const total = users.length;
-      const active = users.filter((u) => u.activity === "active").length;
-      const pending = users.filter((u) => u.status === "pending").length;
-      const inactive = users.filter((u) => u.activity === "inactive").length;
-      const approved = users.filter((u) => u.status === "approved").length;
-
-      // Get latest 5 pending users
-      const latestPending = users
-        .filter((u) => u.status === "pending")
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 5);
-
-      // Set state
-      setPendingUsers(latestPending);
-
-      //  Set stats
-      setStats({ total, active, pending, inactive, approved });
-    } catch (err) {
-      // Handle error
-      toast.error("Failed to load statistics");
-    }
-  };
+    setStats(res.data);
+    setPendingUsers(res.data.latestPending || []);
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to load statistics");
+  }
+};
 
   // Fetch Admin
   const fetchAdmin = async () => {
@@ -146,7 +128,7 @@ const AdminDashboard = () => {
         >
           <StatCard
             title="Active Users"
-            value={stats.active}
+            value={stats.approved}
             color="bg-green-500 cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
           />
         </div>
