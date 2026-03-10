@@ -5,7 +5,9 @@ const paginationUtil = require("../utils/pagination.util");
 // Get all users
 exports.getUsers = async (req, res) => {
   try {
-    const query = {};
+    const query = {
+      role: { $ne: "admin" }, // exclude admins
+    };
 
     // Get parameters
     const { page = 1, limit = 5, search = "", status } = req.query;
@@ -18,17 +20,15 @@ exports.getUsers = async (req, res) => {
       query.email = { $regex: search, $options: "i" };
     }
 
-    // Filter by status
+    // status
     if (status) {
       query.status = status;
     }
 
- 
-
     const total = await User.countDocuments(query);
 
     const users = await User.find(query)
-    .sort({ createdAt: -1 })
+      .sort({ createdAt: -1 })
       .select("-password")
       .skip((pageNumber - 1) * limitNumber)
       .limit(limitNumber);
@@ -63,7 +63,6 @@ exports.approveUser = async (req, res) => {
 
 // Mark inactive
 exports.markInactive = async (req, res) => {
-
   // Update user activity status to inactive
   await User.findByIdAndUpdate(req.params.id, {
     status: "inactive",

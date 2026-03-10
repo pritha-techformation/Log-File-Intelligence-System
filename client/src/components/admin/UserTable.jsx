@@ -43,13 +43,8 @@ const UserTable = () => {
         status: statusFilter !== "all" ? statusFilter : undefined,
       });
 
-      // Filter out admin
-      const filteredUsers = res.data.users.filter(
-        (user) => user.role !== "admin",
-      );
-
       // Set users and pagination
-      setUsers(filteredUsers);
+      setUsers(res.data.users);
       setPagination(res.data.pagination || {});
     } catch (err) {
       // Handle error
