@@ -18,10 +18,11 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import LogoutPage from "./pages/auth/Logout";
 import NotFound from "./pages/NotFound";
+import WaitingApproval from "./pages/auth/Waiting";
+
 
 // ----- User Pages -----
 import HistoryPage from "./pages/user/HistoryPage";
-import WaitingApproval from "./pages/user/Waiting";
 
 // ----- Admin Pages -----
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -44,7 +45,7 @@ const App = () => {
 
   // Hide Navbar and Footer on login and signup pages
   const hideLayout =
-    location.pathname === "/login" || location.pathname === "/signup";
+    location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/waitingforapproval";
 
   return (
     <>
