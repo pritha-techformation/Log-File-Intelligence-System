@@ -6,7 +6,7 @@ import "../styles/UserTable.css";
 import {
   getUsers,
   markInactive,
-  markActive,
+  // markActive,
   approveUser,
   deleteUser,
 } from "../../api/user.api";
@@ -112,7 +112,7 @@ const UserTable = () => {
       message: "This user will regain access to the system.",
       onConfirm: async () => {
         try {
-          await markActive(id);
+          await approveUser(id);
           toast.success("User activated");
           fetchUsers();
         } catch {
@@ -149,6 +149,21 @@ const UserTable = () => {
     setDialogOpen(true);
   };
 
+  const actions = {
+    pending: [
+      { label: "Approve", class: "approve-btn", action: handleApprove },
+      { label: "Delete", class: "delete-btn", action: handleDelete },
+    ],
+    approved: [
+      { label: "Inactivate", class: "inactive-btn", action: handleInactive },
+      { label: "Delete", class: "delete-btn", action: handleDelete },
+    ],
+    inactive: [
+      { label: "Activate", class: "approve-btn", action: handleActivate },
+      { label: "Delete", class: "delete-btn", action: handleDelete },
+    ],
+  };
+
   return (
     <div className="user-table-layout">
       {/* FILTER TOPBAR */}
@@ -170,7 +185,11 @@ const UserTable = () => {
         </button>
 
         <button
-          className={statusFilter === "approved" ? "active-filter" : ""}
+          className={
+            statusFilter === "approved"
+              ? "active-filter"
+              : ""
+          }
           onClick={() => setStatusFilter("approved")}
         >
           Approved
@@ -233,40 +252,15 @@ const UserTable = () => {
                   </td> */}
 
                   <td className="actions">
-                    {user.status === "pending" && (
+                    {actions[user.status]?.map((btn, i) => (
                       <button
-                        className="approve-btn"
-                        onClick={() => handleApprove(user._id)}
+                        key={i}
+                        className={btn.class}
+                        onClick={() => btn.action(user._id)}
                       >
-                        Approve
+                        {btn.label}
                       </button>
-                    )}
-
-                    {user.status === "active" && 
-                    user.status !== "approved" && (
-                      <button
-                        className="inactive-btn"
-                        onClick={() => handleInactive(user._id)}
-                      >
-                        Inactivate
-                      </button>
-                    )}
-
-                    {user.status === "inactive" && (
-                      <button
-                        className="approve-btn"
-                        onClick={() => handleActivate(user._id)}
-                      >
-                        Activate
-                      </button>
-                    )}
-
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(user._id)}
-                    >
-                      Delete
-                    </button>
+                    ))}
                   </td>
                 </tr>
               ))}

@@ -34,7 +34,7 @@ router.patch(
   "/:id/active",
   auth,
   authorize(["admin"]),
-  controller.markActive
+  controller.approveUser
 );
 
 // Delete user

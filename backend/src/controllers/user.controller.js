@@ -74,14 +74,14 @@ exports.markInactive = async (req, res) => {
 };
 
 // Mark active
-exports.markActive = async (req, res) => {
-  // Update user activity status to active
-  await User.findByIdAndUpdate(req.params.id, {
-    status: "active",
-  });
+// exports.markActive = async (req, res) => {
+//   // Update user activity status to active
+//   await User.findByIdAndUpdate(req.params.id, {
+//     status: "active",
+//   });
 
-  res.json({ success: true, message: "User marked active" });
-};
+//   res.json({ success: true, message: "User marked active" });
+// };
 
 // Delete user
 exports.deleteUser = async (req, res) => {

@@ -50,7 +50,7 @@ class AuthService {
     }
 
     // Throw error if user is not approved
-    if (user.status !== "approved" && user.status !== "active") {
+    if (user.status !== "approved") {
       throw new AppError("User not approved", 403);
     }
 

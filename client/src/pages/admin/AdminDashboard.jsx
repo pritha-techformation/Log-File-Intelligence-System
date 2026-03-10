@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   const [admin, setAdmin] = useState({});
   const [stats, setStats] = useState({
     total: 0,
-    active: 0,
+    // active: 0,
     pending: 0,
     inactive: 0,
     approved: 0,
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
         >
           <StatCard
             title="Active Users"
-            value={stats.active}
+            value={stats.approved}
             color="bg-green-500 cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
           />
         </div>

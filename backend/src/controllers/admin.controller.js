@@ -41,7 +41,7 @@ exports.updateProfile = async (req, res) => {
 
 exports.getStats = async (req, res) => {
   const total = await User.countDocuments();
-  const active = await User.countDocuments({ status: "active" });
+  // const active = await User.countDocuments({ status: "active" });
   const inactive = await User.countDocuments({ status: "inactive" });
   const pending = await User.countDocuments({ status: "pending" });
   const approved = await User.countDocuments({ status: "approved" });
@@ -52,7 +52,7 @@ exports.getStats = async (req, res) => {
 
   res.json({
     total,
-    active,
+    // active,
     inactive,
     pending,
     approved,
