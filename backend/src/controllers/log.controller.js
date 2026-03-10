@@ -6,6 +6,23 @@ const paginationUtil = require("../utils/pagination.util");
 exports.uploadLog = async (req, res) => {
   try {
 
+    // Find the current user from database
+    const user = await User.findById(req.user.id);
+
+    // If user does not exist
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+     // If user is inactive, prevent file upload
+    if (user.activity === "inactive") {
+      return res.status(403).json({
+        message: "Your account is inactive. You cannot upload files.",
+      });
+    }
+
     // Check if a file was uploaded
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
