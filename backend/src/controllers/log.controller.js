@@ -1,6 +1,7 @@
 const Log = require("../models/log.model");
 const logAnalyzerService = require("../services/logAnalysis.service");
 const paginationUtil = require("../utils/pagination.util");
+const User = require("../models/user.model");
 
 // Upload Logs by Users
 exports.uploadLog = async (req, res) => {
