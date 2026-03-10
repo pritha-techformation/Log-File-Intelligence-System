@@ -9,7 +9,7 @@ const LogoutPage = () => {
   const { logout } = useAuth();
 
   // Handle logout
-  useEffect(() => {
+  React.useEffect(() => {
     const handleLogout = async () => {
       await logout();
       navigate("/login");
