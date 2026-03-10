@@ -5,49 +5,45 @@ const paginationUtil = require("../utils/pagination.util");
 // Get all users
 exports.getUsers = async (req, res) => {
   try {
-    // Build query
     const query = {};
 
-    // Get page, limit, search and status
-    const { page = 1, limit = 5, search = "", status } = req.query;
+    // Get parameters
+    const { page = 1, limit = 5, search = "", status, activity } = req.query;
 
-    // Convert to number
     const pageNumber = Number(page);
     const limitNumber = Number(limit);
 
-    // Apply search
+    // Search by email
     if (search) {
       query.email = { $regex: search, $options: "i" };
     }
 
-    // Apply status
+    // Filter by status
     if (status) {
       query.status = status;
     }
 
-    // Count total
+    // Filter by activity
+    if (activity) {
+      query.activity = activity;
+    }
+
     const total = await User.countDocuments(query);
 
-    // Get users excluding password and apply pagination
     const users = await User.find(query)
       .select("-password")
       .skip((pageNumber - 1) * limitNumber)
       .limit(limitNumber);
 
-      // Get pagination
     const pagination = paginationUtil(pageNumber, limitNumber, total);
 
-    // Return response
     res.json({
       success: true,
       users,
       total,
       pagination,
     });
-
   } catch (error) {
-
-    // Return server error
     console.error(error);
     res.status(500).json({
       success: false,

@@ -5,11 +5,13 @@ import { getUsers } from "../../api/user.api";
 import { approveUser } from "../../api/user.api";
 import toast from "react-hot-toast";
 import StatCard from "./StatCard";
+import { useNavigate } from "react-router-dom";
 
 // Admin dashboard
 const AdminDashboard = () => {
   // Context
   const { user } = useAuth();
+  const navigate = useNavigate();
   // State
   const [admin, setAdmin] = useState({});
   const [stats, setStats] = useState({
@@ -43,7 +45,7 @@ const AdminDashboard = () => {
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, 5);
 
-        // Set state
+      // Set state
       setPendingUsers(latestPending);
 
       //  Set stats
@@ -105,7 +107,7 @@ const AdminDashboard = () => {
     }
   };
 
-  // Render loading  
+  // Render loading
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen text-gray-600">
@@ -127,25 +129,51 @@ const AdminDashboard = () => {
       </div>
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
-        <StatCard title="Total Users" value={stats.total} color="bg-blue-500" />
+        <div
+          onClick={() => navigate("/admin/users", { state: { filter: "all" } })}
+        >
+          <StatCard
+            title="Total Users"
+            value={stats.total}
+            color="bg-blue-500 cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
+          />
+        </div>
 
-        <StatCard
-          title="Active Users"
-          value={stats.active}
-          color="bg-green-500"
-        />
+        <div
+          onClick={() =>
+            navigate("/admin/users", { state: { filter: "approved" } })
+          }
+        >
+          <StatCard
+            title="Active Users"
+            value={stats.active}
+            color="bg-green-500 cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
+          />
+        </div>
 
-        <StatCard
-          title="Pending Approval"
-          value={stats.pending}
-          color="bg-yellow-500"
-        />
+        <div
+          onClick={() =>
+            navigate("/admin/users", { state: { filter: "pending" } })
+          }
+        >
+          <StatCard
+            title="Pending Approval"
+            value={stats.pending}
+            color="bg-yellow-500 cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
+          />
+        </div>
 
-        <StatCard
-          title="Inactive Users"
-          value={stats.inactive}
-          color="bg-red-500"
-        />
+        <div
+          onClick={() =>
+            navigate("/admin/users", { state: { filter: "inactive" } })
+          }
+        >
+          <StatCard
+            title="Inactive Users"
+            value={stats.inactive}
+            color="bg-red-500 cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
+          />
+        </div>
       </div>
 
       {/* Two Column Section */}
