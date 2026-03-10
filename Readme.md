@@ -325,4 +325,3 @@ Login using either:
 
 ---
 
-If you'd like, I can also help you add **badges, screenshots, demo GIFs, and API documentation** so your GitHub README looks **much more professional and portfolio-ready**.
