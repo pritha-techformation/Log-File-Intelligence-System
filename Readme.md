@@ -1,6 +1,3 @@
-Here is a **clean, properly structured GitHub `README.md`** version of your content with correct Markdown formatting, headings, code blocks, and sections. It will render nicely on GitHub.
-
----
 
 # Log File Intelligence System
 
