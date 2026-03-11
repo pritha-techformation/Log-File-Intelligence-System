@@ -1,35 +1,44 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./styles/HeroSection.css";
 
 // Hero Section
 const HeroSection = () => {
 
-  // Navigation handler
   const navigate = useNavigate();
+  const { user } = useAuth(); // get logged in user
 
-  // Analyze button handler
   const handleAnalyze = () => {
     navigate("/upload");
   };
+
+  const isAdmin = user?.role === "admin";
 
   return (
     <section className="hero">
 
       <div className="hero-content">
+
         <h1 className="hero-title">
-          Log File Intelligence System
+          {isAdmin
+            ? "Log Analysis Admin Dashboard"
+            : "Log File Intelligence System"}
         </h1>
 
         <p className="hero-subtitle">
-          Upload your server logs and instantly discover hidden errors,
-          patterns, and insights.
+          {isAdmin
+            ? "Monitor system activity, manage users, and oversee log analysis across the platform."
+            : "Upload your server logs and instantly discover hidden errors, patterns, and insights."}
         </p>
 
-        {/* Analyze button */}
-        <button className="hero-btn" onClick={handleAnalyze}>
-          Analyze Logs Smartly
-        </button>
+        {/* Show only for normal users */}
+        {!isAdmin && (
+          <button className="hero-btn" onClick={handleAnalyze}>
+            Analyze Logs Smartly
+          </button>
+        )}
+
       </div>
 
     </section>
