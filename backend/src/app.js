@@ -14,7 +14,10 @@ const adminRoutes = require("./routes/admin.routes");
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://log-file-intelligence-system-9fa5.vercel.app/",
+  credentials: true
+}));
 app.use(express.json());
 
 // Routes 
